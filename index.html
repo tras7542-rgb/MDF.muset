@@ -1,0 +1,2756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Madrasa Management System</title>
+
+<style>
+
+/* =========================================
+   GENERAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    color: #222;
+}
+
+header {
+    background: #12372a;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 22px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+nav button,
+button {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button {
+    background: white;
+    color: #12372a;
+}
+
+.page {
+    display: none;
+    padding: 20px;
+}
+
+.active {
+    display: block;
+}
+
+
+/* =========================================
+   HOME
+========================================= */
+
+.home {
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        url("IMG_20260821_165330_489.jpg");
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 420px;
+
+    opacity: 0.20;
+
+    z-index: 0;
+}
+
+.home > * {
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    width: 130px;
+    height: 130px;
+
+    object-fit: contain;
+
+    border-radius: 15px;
+
+    margin: 20px auto;
+}
+
+.home h2 {
+    color: #12372a;
+    margin-bottom: 15px;
+}
+
+.home p {
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.main-btn {
+    background: #12372a;
+    color: white;
+    padding: 14px 22px;
+}
+
+
+/* =========================================
+   FORMS
+========================================= */
+
+.form-container {
+    max-width: 600px;
+    margin: auto;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px #ccc;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #12372a;
+}
+
+input,
+select {
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 7px 0 14px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    background: white;
+}
+
+.save-btn {
+    width: 100%;
+
+    background: #12372a;
+
+    color: white;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.search {
+    max-width: 500px;
+    margin: 15px auto;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-container {
+    overflow-x: auto;
+
+    background: white;
+
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 750px;
+}
+
+th,
+td {
+    padding: 12px;
+
+    border-bottom: 1px solid #ddd;
+
+    text-align: left;
+}
+
+th {
+    background: #12372a;
+
+    color: white;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.edit-btn {
+    background: #f0ad4e;
+    color: white;
+}
+
+.info-btn {
+    background: #337ab7;
+    color: white;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+}
+
+.pay-btn {
+    background: #198754;
+    color: white;
+}
+
+.unpaid {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.paid {
+    color: #198754;
+    font-weight: bold;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(160px, 1fr));
+
+    gap: 15px;
+
+    margin: 20px 0;
+}
+
+.card {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 2px 7px #ddd;
+
+    text-align: center;
+}
+
+.card h3 {
+    color: #666;
+
+    font-size: 14px;
+}
+
+.card strong {
+    display: block;
+
+    font-size: 25px;
+
+    margin-top: 8px;
+
+    color: #12372a;
+}
+
+
+/* =========================================
+   MODALS
+========================================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    z-index: 1000;
+}
+
+.modal-box {
+    background: white;
+
+    max-width: 500px;
+
+    margin: 50px auto;
+
+    padding: 25px;
+
+    border-radius: 12px;
+}
+
+.modal-box h2 {
+    color: #12372a;
+
+    margin-bottom: 15px;
+}
+
+.modal-box p {
+    margin: 10px 0;
+
+    line-height: 1.5;
+}
+
+.modal-box hr {
+    margin: 15px 0;
+
+    border: none;
+
+    border-top: 1px solid #ddd;
+}
+
+.close-btn {
+    background: #555;
+
+    color: white;
+
+    margin-top: 10px;
+}
+
+.fee-setting {
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    margin-bottom: 20px;
+}
+
+.fee-setting button {
+    background: #12372a;
+
+    color: white;
+}
+
+.back-btn {
+    background: #777;
+
+    color: white;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================
+   YEAR SUMMARY
+========================================= */
+
+.summary-container {
+    margin-top: 25px;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 2px 7px #ddd;
+}
+
+.summary-container h3 {
+    color: #12372a;
+
+    margin-bottom: 15px;
+}
+
+.summary-table {
+    overflow-x: auto;
+}
+
+.summary-table table {
+    min-width: 600px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    .page {
+        padding: 12px;
+    }
+
+    nav button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        padding: 9px;
+        font-size: 13px;
+    }
+
+    .home {
+        padding-top: 20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <h1>
+        🌙 Madrasa Management System
+    </h1>
+
+    <nav>
+
+        <button onclick="showPage('home')">
+            Home
+        </button>
+
+        <button onclick="showPage('registration')">
+            Registration
+        </button>
+
+        <button onclick="showPage('students')">
+            Student List
+        </button>
+
+        <button onclick="showPage('fees')">
+            Fee Management
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================
+     HOME
+========================================= -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <div class="home">
+
+        <img
+            src="IMG_20260821_165330_489.jpg"
+            class="logo"
+            alt="Madrasa Logo"
+        >
+
+        <h2>
+            Welcome to Our Madrasa
+        </h2>
+
+        <p>
+            Our madrasa is dedicated to providing
+            Islamic education, developing students'
+            knowledge, character, discipline and
+            understanding of the Qur'an and Sunnah.
+        </p>
+
+        <button
+            class="main-btn"
+            onclick="showPage('registration')"
+        >
+            Get Student Registration
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     REGISTRATION
+========================================= -->
+
+<section
+    id="registration"
+    class="page"
+>
+
+    <div class="form-container">
+
+        <button
+            class="back-btn"
+            onclick="showPage('home')"
+        >
+            ← Back
+        </button>
+
+        <h2>
+            Student Registration
+        </h2>
+
+        <form id="studentForm">
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Student Full Name"
+                required
+            >
+
+            <input
+                type="text"
+                id="studentId"
+                placeholder="Student ID"
+                required
+            >
+
+            <input
+                type="tel"
+                id="studentPhone"
+                placeholder="Phone Number"
+                required
+            >
+
+            <input
+                type="text"
+                id="studentClass"
+                placeholder="Class / Level"
+                required
+            >
+
+            <input
+                type="text"
+                id="studentParent"
+                placeholder="Parent / Guardian Name"
+            >
+
+            <button
+                class="save-btn"
+                type="submit"
+            >
+                Register Student
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     STUDENT LIST
+========================================= -->
+
+<section
+    id="students"
+    class="page"
+>
+
+    <button
+        class="back-btn"
+        onclick="showPage('home')"
+    >
+        ← Home
+    </button>
+
+    <h2>
+        Student List
+    </h2>
+
+    <input
+        class="search"
+        type="text"
+        id="studentSearch"
+        placeholder="🔍 Search by name, ID or phone..."
+        onkeyup="displayStudents()"
+    >
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Class</th>
+
+                    <th>Parent</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="studentTableBody"
+            ></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     FEE MANAGEMENT
+========================================= -->
+
+<section
+    id="fees"
+    class="page"
+>
+
+    <button
+        class="back-btn"
+        onclick="showPage('home')"
+    >
+        ← Home
+    </button>
+
+    <h2>
+        Monthly Fee Management
+    </h2>
+
+
+    <!-- PERIOD SETTINGS -->
+
+    <div class="fee-setting">
+
+        <strong>
+            Payment Period
+        </strong>
+
+        <br><br>
+
+        <label>
+            Year
+        </label>
+
+        <select
+            id="feeYear"
+            onchange="changeFeePeriod()"
+        ></select>
+
+
+        <label>
+            Month
+        </label>
+
+        <select
+            id="feeMonth"
+            onchange="changeFeePeriod()"
+        >
+
+            <option value="0">
+                January
+            </option>
+
+            <option value="1">
+                February
+            </option>
+
+            <option value="2">
+                March
+            </option>
+
+            <option value="3">
+                April
+            </option>
+
+            <option value="4">
+                May
+            </option>
+
+            <option value="5">
+                June
+            </option>
+
+            <option value="6">
+                July
+            </option>
+
+            <option value="7">
+                August
+            </option>
+
+            <option value="8">
+                September
+            </option>
+
+            <option value="9">
+                October
+            </option>
+
+            <option value="10">
+                November
+            </option>
+
+            <option value="11">
+                December
+            </option>
+
+        </select>
+
+
+        <br>
+
+        <strong>
+
+            Monthly Fee:
+
+            <span id="currentFee">
+                350
+            </span>
+
+            ETB
+
+        </strong>
+
+        <br><br>
+
+        <button onclick="changeFee()">
+            ✏️ Edit Monthly Fee
+        </button>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>
+                Total Students
+            </h3>
+
+            <strong
+                id="totalStudents"
+            >
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Paid
+            </h3>
+
+            <strong
+                id="paidStudents"
+            >
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Unpaid
+            </h3>
+
+            <strong
+                id="unpaidStudents"
+            >
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Total Expected
+            </h3>
+
+            <strong
+                id="expectedMoney"
+            >
+                0 ETB
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Total Collected
+            </h3>
+
+            <strong
+                id="collectedMoney"
+            >
+                0 ETB
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Total Remaining
+            </h3>
+
+            <strong
+                id="remainingMoney"
+            >
+                0 ETB
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- MONTHLY TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Student</th>
+
+                    <th>Phone</th>
+
+                    <th>Monthly Fee</th>
+
+                    <th>Status</th>
+
+                    <th>Payment Date</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="feeTableBody"
+            ></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- YEAR SUMMARY -->
+
+    <div class="summary-container">
+
+        <h3>
+            📊 Annual Summary
+        </h3>
+
+        <div class="summary-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Month
+                        </th>
+
+                        <th>
+                            Expected
+                        </th>
+
+                        <th>
+                            Collected
+                        </th>
+
+                        <th>
+                            Remaining
+                        </th>
+
+                        <th>
+                            Paid
+                        </th>
+
+                        <th>
+                            Unpaid
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="annualSummaryBody"
+                ></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     INFORMATION MODAL
+========================================= -->
+
+<div
+    id="infoModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            Student Information
+        </h2>
+
+        <div
+            id="studentInformation"
+        ></div>
+
+        <button
+            class="close-btn"
+            onclick="closeModal()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     EDIT MODAL
+========================================= -->
+
+<div
+    id="editModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            Edit Student
+        </h2>
+
+        <input
+            type="hidden"
+            id="editIndex"
+        >
+
+        <input
+            type="text"
+            id="editName"
+            placeholder="Student Name"
+        >
+
+        <input
+            type="text"
+            id="editId"
+            placeholder="Student ID"
+        >
+
+        <input
+            type="tel"
+            id="editPhone"
+            placeholder="Phone"
+        >
+
+        <input
+            type="text"
+            id="editClass"
+            placeholder="Class"
+        >
+
+        <input
+            type="text"
+            id="editParent"
+            placeholder="Parent / Guardian"
+        >
+
+        <button
+            class="save-btn"
+            onclick="saveEdit()"
+        >
+            Save Changes
+        </button>
+
+        <button
+            class="close-btn"
+            onclick="closeEdit()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================================
+   DATA
+========================================= */
+
+let students =
+    JSON.parse(
+        localStorage.getItem(
+            "madrasaStudents"
+        )
+    ) || [];
+
+
+let monthlyFee =
+    Number(
+        localStorage.getItem(
+            "monthlyFee"
+        )
+    ) || 350;
+
+
+let feeSettings =
+    JSON.parse(
+        localStorage.getItem(
+            "madrasaFeeSettings"
+        )
+    ) || {};
+
+
+let currentYear =
+    new Date().getFullYear();
+
+
+let currentMonth =
+    new Date().getMonth();
+
+
+/* =========================================
+   MONTH NAMES
+========================================= */
+
+const monthNames = [
+
+    "January",
+
+    "February",
+
+    "March",
+
+    "April",
+
+    "May",
+
+    "June",
+
+    "July",
+
+    "August",
+
+    "September",
+
+    "October",
+
+    "November",
+
+    "December"
+
+];
+
+
+/* =========================================
+   PAGE NAVIGATION
+========================================= */
+
+function showPage(pageId) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    if (pageId === "students") {
+
+        displayStudents();
+
+    }
+
+
+    if (pageId === "fees") {
+
+        setupFeeYears();
+
+        displayFees();
+
+        updateFeeCalculations();
+
+        displayAnnualSummary();
+
+    }
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* =========================================
+   SAVE STUDENTS
+========================================= */
+
+function saveStudents() {
+
+    localStorage.setItem(
+
+        "madrasaStudents",
+
+        JSON.stringify(students)
+
+    );
+
+}
+
+
+/* =========================================
+   SAVE FEE SETTINGS
+========================================= */
+
+function saveFeeSettings() {
+
+    localStorage.setItem(
+
+        "madrasaFeeSettings",
+
+        JSON.stringify(
+            feeSettings
+        )
+
+    );
+
+}
+
+
+/* =========================================
+   FEE KEY
+========================================= */
+
+function getFeeKey() {
+
+    return (
+        currentYear +
+        "-" +
+        currentMonth
+    );
+
+}
+
+
+/* =========================================
+   GET CURRENT FEE
+========================================= */
+
+function getCurrentMonthlyFee() {
+
+    const key =
+        getFeeKey();
+
+
+    if (
+
+        feeSettings[key] &&
+
+        typeof feeSettings[key].fee
+        !== "undefined"
+
+    ) {
+
+        return Number(
+            feeSettings[key].fee
+        );
+
+    }
+
+
+    return monthlyFee;
+
+}
+
+
+/* =========================================
+   GET STUDENT PAYMENT
+========================================= */
+
+function getPayment(student) {
+
+    if (!student.payments) {
+
+        student.payments = {};
+
+    }
+
+
+    const key =
+        getFeeKey();
+
+
+    if (!student.payments[key]) {
+
+        student.payments[key] = {
+
+            paid: false,
+
+            paymentDate: "",
+
+            amount: 0
+
+        };
+
+    }
+
+
+    return student.payments[key];
+
+}
+
+
+/* =========================================
+   YEAR SELECTOR
+========================================= */
+
+function setupFeeYears() {
+
+    const yearSelect =
+        document.getElementById(
+            "feeYear"
+        );
+
+
+    if (!yearSelect) return;
+
+
+    const savedYears = [];
+
+
+    Object.keys(
+        feeSettings
+    ).forEach(key => {
+
+        const year =
+            Number(
+                key.split("-")[0]
+            );
+
+
+        if (!isNaN(year)) {
+
+            savedYears.push(year);
+
+        }
+
+    });
+
+
+    students.forEach(student => {
+
+        if (student.payments) {
+
+            Object.keys(
+                student.payments
+            ).forEach(key => {
+
+                const year =
+                    Number(
+                        key.split("-")[0]
+                    );
+
+
+                if (!isNaN(year)) {
+
+                    savedYears.push(year);
+
+                }
+
+            });
+
+        }
+
+    });
+
+
+    savedYears.push(
+        currentYear
+    );
+
+
+    const years =
+        [
+            ...new Set(
+                savedYears
+            )
+        ]
+        .sort(
+            (a, b) => b - a
+        );
+
+
+    yearSelect.innerHTML = "";
+
+
+    years.forEach(year => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value = year;
+
+        option.textContent = year;
+
+
+        if (
+            year === currentYear
+        ) {
+
+            option.selected =
+                true;
+
+        }
+
+
+        yearSelect.appendChild(
+            option
+        );
+
+    });
+
+
+    document.getElementById(
+        "feeMonth"
+    ).value = currentMonth;
+
+}
+
+
+/* =========================================
+   CHANGE YEAR / MONTH
+========================================= */
+
+function changeFeePeriod() {
+
+    currentYear =
+        Number(
+            document.getElementById(
+                "feeYear"
+            ).value
+        );
+
+
+    currentMonth =
+        Number(
+            document.getElementById(
+                "feeMonth"
+            ).value
+        );
+
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+}
+
+
+/* =========================================
+   REGISTRATION
+========================================= */
+
+document
+    .getElementById("studentForm")
+    .addEventListener(
+        "submit",
+        function(e) {
+
+            e.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById(
+                        "studentName"
+                    )
+                    .value
+                    .trim();
+
+
+            const id =
+                document
+                    .getElementById(
+                        "studentId"
+                    )
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById(
+                        "studentPhone"
+                    )
+                    .value
+                    .trim();
+
+
+            const studentClass =
+                document
+                    .getElementById(
+                        "studentClass"
+                    )
+                    .value
+                    .trim();
+
+
+            const parent =
+                document
+                    .getElementById(
+                        "studentParent"
+                    )
+                    .value
+                    .trim();
+
+
+            const duplicate =
+                students.some(
+                    student =>
+                        student.id === id
+                );
+
+
+            if (duplicate) {
+
+                alert(
+                    "This Student ID already exists."
+                );
+
+                return;
+
+            }
+
+
+            const newStudent = {
+
+                name: name,
+
+                id: id,
+
+                phone: phone,
+
+                className:
+                    studentClass,
+
+                parent: parent,
+
+                payments: {}
+
+            };
+
+
+            students.push(
+                newStudent
+            );
+
+
+            saveStudents();
+
+
+            alert(
+                "Student registered successfully!"
+            );
+
+
+            document
+                .getElementById(
+                    "studentForm"
+                )
+                .reset();
+
+
+            showPage(
+                "students"
+            );
+
+        }
+    );
+
+
+/* =========================================
+   STUDENT LIST
+========================================= */
+
+function displayStudents() {
+
+    const tbody =
+        document.getElementById(
+            "studentTableBody"
+        );
+
+
+    const search =
+        document.getElementById(
+            "studentSearch"
+        )
+        ?.value
+        .toLowerCase() || "";
+
+
+    tbody.innerHTML = "";
+
+
+    students.forEach(
+        (student, index) => {
+
+            const searchableText = (
+
+                student.name +
+                " " +
+                student.id +
+                " " +
+                student.phone
+
+            ).toLowerCase();
+
+
+            if (
+                !searchableText
+                    .includes(search)
+            ) {
+
+                return;
+
+            }
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${student.id}
+                </td>
+
+                <td>
+                    ${student.name}
+                </td>
+
+                <td>
+                    ${student.phone}
+                </td>
+
+                <td>
+                    ${student.className}
+                </td>
+
+                <td>
+                    ${student.parent || "-"}
+                </td>
+
+                <td>
+
+                    <button
+                        class="info-btn"
+                        onclick="viewStudent(${index})"
+                    >
+                        Information
+                    </button>
+
+                    <button
+                        class="edit-btn"
+                        onclick="editStudent(${index})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteStudent(${index})"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   VIEW STUDENT
+========================================= */
+
+function viewStudent(index) {
+
+    const student =
+        students[index];
+
+
+    const payment =
+        getPayment(student);
+
+
+    const fee =
+        getCurrentMonthlyFee();
+
+
+    const status =
+        payment.paid
+            ? "Paid"
+            : "Unpaid";
+
+
+    document.getElementById(
+        "studentInformation"
+    ).innerHTML = `
+
+        <p>
+            <strong>Name:</strong>
+            ${student.name}
+        </p>
+
+        <p>
+            <strong>Student ID:</strong>
+            ${student.id}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            ${student.phone}
+        </p>
+
+        <p>
+            <strong>Class:</strong>
+            ${student.className}
+        </p>
+
+        <p>
+            <strong>Parent/Guardian:</strong>
+            ${student.parent || "-"}
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>Payment Period:</strong>
+            ${monthNames[currentMonth]}
+            ${currentYear}
+        </p>
+
+        <p>
+            <strong>Monthly Fee:</strong>
+            ${fee} ETB
+        </p>
+
+        <p>
+
+            <strong>
+                Fee Status:
+            </strong>
+
+            <span class="${
+                payment.paid
+                    ? "paid"
+                    : "unpaid"
+            }">
+
+                ${status}
+
+            </span>
+
+        </p>
+
+        ${
+            payment.paid
+
+            ?
+
+            `
+
+            <p>
+                <strong>
+                    Amount Paid:
+                </strong>
+
+                ${payment.amount} ETB
+            </p>
+
+            <p>
+                <strong>
+                    Payment Date:
+                </strong>
+
+                ${payment.paymentDate}
+            </p>
+
+            `
+
+            :
+
+            ""
+
+        }
+
+
+        <br>
+
+
+        ${
+            payment.paid
+
+            ?
+
+            `
+
+            <button
+                class="edit-btn"
+                onclick="
+                    markUnpaid(${index});
+                    closeModal();
+                "
+            >
+                Mark Unpaid
+            </button>
+
+            `
+
+            :
+
+            `
+
+            <button
+                class="pay-btn"
+                onclick="
+                    makePayment(${index});
+                    closeModal();
+                "
+            >
+                Pay ${fee} ETB
+            </button>
+
+            `
+
+        }
+
+    `;
+
+
+    document.getElementById(
+        "infoModal"
+    ).style.display = "block";
+
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "infoModal"
+    ).style.display = "none";
+
+}
+
+
+/* =========================================
+   EDIT STUDENT
+========================================= */
+
+function editStudent(index) {
+
+    const student =
+        students[index];
+
+
+    document.getElementById(
+        "editIndex"
+    ).value = index;
+
+
+    document.getElementById(
+        "editName"
+    ).value =
+        student.name;
+
+
+    document.getElementById(
+        "editId"
+    ).value =
+        student.id;
+
+
+    document.getElementById(
+        "editPhone"
+    ).value =
+        student.phone;
+
+
+    document.getElementById(
+        "editClass"
+    ).value =
+        student.className;
+
+
+    document.getElementById(
+        "editParent"
+    ).value =
+        student.parent;
+
+
+    document.getElementById(
+        "editModal"
+    ).style.display =
+        "block";
+
+}
+
+
+function saveEdit() {
+
+    const index =
+        Number(
+            document.getElementById(
+                "editIndex"
+            ).value
+        );
+
+
+    const newId =
+        document.getElementById(
+            "editId"
+        )
+        .value
+        .trim();
+
+
+    const duplicate =
+        students.some(
+            (student, i) =>
+
+                student.id === newId &&
+
+                i !== index
+        );
+
+
+    if (duplicate) {
+
+        alert(
+            "Another student already has this ID."
+        );
+
+        return;
+
+    }
+
+
+    students[index].name =
+        document.getElementById(
+            "editName"
+        ).value.trim();
+
+
+    students[index].id =
+        newId;
+
+
+    students[index].phone =
+        document.getElementById(
+            "editPhone"
+        ).value.trim();
+
+
+    students[index].className =
+        document.getElementById(
+            "editClass"
+        ).value.trim();
+
+
+    students[index].parent =
+        document.getElementById(
+            "editParent"
+        ).value.trim();
+
+
+    saveStudents();
+
+
+    closeEdit();
+
+
+    displayStudents();
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+
+    alert(
+        "Student information updated."
+    );
+
+}
+
+
+function closeEdit() {
+
+    document.getElementById(
+        "editModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================================
+   DELETE STUDENT
+========================================= */
+
+function deleteStudent(index) {
+
+    const student =
+        students[index];
+
+
+    const confirmDelete =
+        confirm(
+            "Delete " +
+            student.name +
+            " from the system?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    students.splice(
+        index,
+        1
+    );
+
+
+    saveStudents();
+
+
+    displayStudents();
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+}
+
+
+/* =========================================
+   DISPLAY FEES
+========================================= */
+
+function displayFees() {
+
+    const tbody =
+        document.getElementById(
+            "feeTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    tbody.innerHTML = "";
+
+
+    const fee =
+        getCurrentMonthlyFee();
+
+
+    document.getElementById(
+        "currentFee"
+    ).textContent =
+        fee;
+
+
+    students.forEach(
+        (student, index) => {
+
+            const payment =
+                getPayment(student);
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${student.id}
+                </td>
+
+                <td>
+                    ${student.name}
+                </td>
+
+                <td>
+                    ${student.phone}
+                </td>
+
+                <td>
+                    ${fee} ETB
+                </td>
+
+                <td class="${
+                    payment.paid
+                        ? "paid"
+                        : "unpaid"
+                }">
+
+                    ${
+                        payment.paid
+                            ? "PAID"
+                            : "UNPAID"
+                    }
+
+                </td>
+
+                <td>
+
+                    ${
+                        payment.paid
+                            ?
+                            payment.paymentDate
+                            :
+                            "—"
+                    }
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="info-btn"
+                        onclick="viewStudent(${index})"
+                    >
+                        Information
+                    </button>
+
+
+                    ${
+                        payment.paid
+
+                        ?
+
+                        `
+
+                        <button
+                            class="edit-btn"
+                            onclick="markUnpaid(${index})"
+                        >
+                            Mark Unpaid
+                        </button>
+
+                        `
+
+                        :
+
+                        `
+
+                        <button
+                            class="pay-btn"
+                            onclick="makePayment(${index})"
+                        >
+                            Pay ${fee} ETB
+                        </button>
+
+                        `
+
+                    }
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   MAKE PAYMENT
+========================================= */
+
+function makePayment(index) {
+
+    const student =
+        students[index];
+
+
+    const fee =
+        getCurrentMonthlyFee();
+
+
+    const month =
+        monthNames[currentMonth];
+
+
+    const confirmPayment =
+        confirm(
+
+            "Record payment of " +
+
+            fee +
+
+            " ETB for " +
+
+            student.name +
+
+            " for " +
+
+            month +
+
+            " " +
+
+            currentYear +
+
+            "?"
+
+        );
+
+
+    if (!confirmPayment) {
+
+        return;
+
+    }
+
+
+    if (!student.payments) {
+
+        student.payments = {};
+
+    }
+
+
+    const key =
+        getFeeKey();
+
+
+    student.payments[key] = {
+
+        paid: true,
+
+        paymentDate:
+            new Date()
+            .toLocaleDateString(),
+
+        amount: fee
+
+    };
+
+
+    saveStudents();
+
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+
+    alert(
+
+        "Payment recorded for " +
+
+        month +
+
+        " " +
+
+        currentYear +
+
+        "."
+
+    );
+
+}
+
+
+/* =========================================
+   MARK UNPAID
+========================================= */
+
+function markUnpaid(index) {
+
+    const student =
+        students[index];
+
+
+    if (!student.payments) {
+
+        student.payments = {};
+
+    }
+
+
+    const key =
+        getFeeKey();
+
+
+    student.payments[key] = {
+
+        paid: false,
+
+        paymentDate: "",
+
+        amount: 0
+
+    };
+
+
+    saveStudents();
+
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+}
+
+
+/* =========================================
+   MONTHLY CALCULATIONS
+========================================= */
+
+function updateFeeCalculations() {
+
+    const total =
+        students.length;
+
+
+    let paid = 0;
+
+    let collected = 0;
+
+
+    const fee =
+        getCurrentMonthlyFee();
+
+
+    students.forEach(
+        student => {
+
+            const payment =
+                getPayment(student);
+
+
+            if (
+                payment.paid
+            ) {
+
+                paid++;
+
+
+                collected +=
+                    Number(
+                        payment.amount
+                    ) || fee;
+
+            }
+
+        }
+    );
+
+
+    const unpaid =
+        total - paid;
+
+
+    const expected =
+        total * fee;
+
+
+    const remaining =
+        expected - collected;
+
+
+    document.getElementById(
+        "totalStudents"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "paidStudents"
+    ).textContent =
+        paid;
+
+
+    document.getElementById(
+        "unpaidStudents"
+    ).textContent =
+        unpaid;
+
+
+    document.getElementById(
+        "expectedMoney"
+    ).textContent =
+        expected +
+        " ETB";
+
+
+    document.getElementById(
+        "collectedMoney"
+    ).textContent =
+        collected +
+        " ETB";
+
+
+    document.getElementById(
+        "remainingMoney"
+    ).textContent =
+        remaining +
+        " ETB";
+
+}
+
+
+/* =========================================
+   CHANGE MONTHLY FEE
+========================================= */
+
+function changeFee() {
+
+    const currentFee =
+        getCurrentMonthlyFee();
+
+
+    const newFee =
+        prompt(
+
+            "Enter the monthly fee for " +
+
+            monthNames[currentMonth] +
+
+            " " +
+
+            currentYear +
+
+            ":",
+
+            currentFee
+
+        );
+
+
+    if (
+        newFee === null
+    ) {
+
+        return;
+
+    }
+
+
+    const amount =
+        Number(newFee);
+
+
+    if (
+
+        isNaN(amount) ||
+
+        amount <= 0
+
+    ) {
+
+        alert(
+            "Please enter a valid fee."
+        );
+
+        return;
+
+    }
+
+
+    const key =
+        getFeeKey();
+
+
+    feeSettings[key] = {
+
+        fee: amount
+
+    };
+
+
+    saveFeeSettings();
+
+
+    monthlyFee =
+        amount;
+
+
+    localStorage.setItem(
+
+        "monthlyFee",
+
+        monthlyFee
+
+    );
+
+
+    displayFees();
+
+    updateFeeCalculations();
+
+    displayAnnualSummary();
+
+
+    alert(
+
+        "Monthly fee for " +
+
+        monthNames[currentMonth] +
+
+        " " +
+
+        currentYear +
+
+        " is now " +
+
+        amount +
+
+        " ETB."
+
+    );
+
+}
+
+
+/* =========================================
+   ANNUAL SUMMARY
+========================================= */
+
+function displayAnnualSummary() {
+
+    const tbody =
+        document.getElementById(
+            "annualSummaryBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    tbody.innerHTML = "";
+
+
+    for (
+        let month = 0;
+        month < 12;
+        month++
+    ) {
+
+
+        const key =
+            currentYear +
+            "-" +
+            month;
+
+
+        let fee;
+
+
+        if (
+
+            feeSettings[key] &&
+
+            typeof feeSettings[key].fee
+            !== "undefined"
+
+        ) {
+
+            fee =
+                Number(
+                    feeSettings[key].fee
+                );
+
+        } else {
+
+            fee =
+                monthlyFee;
+
+        }
+
+
+        let paid = 0;
+
+        let collected = 0;
+
+
+        students.forEach(
+            student => {
+
+                if (
+                    student.payments &&
+                    student.payments[key] &&
+                    student.payments[key].paid
+                ) {
+
+                    paid++;
+
+
+                    collected +=
+                        Number(
+                            student
+                                .payments[key]
+                                .amount
+                        ) || fee;
+
+                }
+
+            }
+        );
+
+
+        const total =
+            students.length;
+
+
+        const unpaid =
+            total - paid;
+
+
+        const expected =
+            total * fee;
+
+
+        const remaining =
+            expected - collected;
+
+
+        const row =
+            document.createElement(
+                "tr"
+            );
+
+
+        row.innerHTML = `
+
+            <td>
+                ${monthNames[month]}
+            </td>
+
+            <td>
+                ${expected} ETB
+            </td>
+
+            <td>
+                ${collected} ETB
+            </td>
+
+            <td>
+                ${remaining} ETB
+            </td>
+
+            <td class="paid">
+                ${paid}
+            </td>
+
+            <td class="unpaid">
+                ${unpaid}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(
+            row
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   MIGRATE OLD PAYMENT SYSTEM
+========================================= */
+
+function migrateOldPayments() {
+
+    let changed =
+        false;
+
+
+    students.forEach(
+        student => {
+
+
+            if (!student.payments) {
+
+                student.payments = {};
+
+            }
+
+
+            /*
+             OLD SYSTEM USED:
+
+             student.paid
+             student.paymentDate
+
+             We preserve the old
+             payment information.
+            */
+
+
+            if (
+               
